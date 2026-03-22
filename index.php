@@ -13,9 +13,9 @@
 
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="logo">
-            <i class="fas fa-utensils"></i>
-            <span><!--<img src="Logo.png" width = "50" height="55">-->Recipe Realm</span>
+        <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+            <img src="images/Logo.png" alt="Recipe Realm" style="height: 60px; object-fit: contain;">
+            <span>Recipe Realm</span>
         </div>
         <ul class="nav-links">
             <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
@@ -249,7 +249,10 @@
 
     <!-- Footer -->
     <footer>
-        <span class="footer-logo"><i class="fas fa-utensils"></i> Recipe Realm</span>
+        <span class="footer-logo" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="images/Logo.png" alt="Recipe Realm" style="height: 50px; object-fit: contain;">
+            Recipe Realm
+        </span>
         <div class="social-links">
             <a href="#"><i class="fab fa-facebook"></i></a>
             <a href="#"><i class="fab fa-instagram"></i></a>

@@ -387,6 +387,32 @@ try {
         json_response(['ok' => true, 'recipes' => $rows]);
     }
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'delete_recipe') {
+        $user = $_SESSION['user'] ?? null;
+        if (!$user) {
+            json_response(['ok' => false, 'error' => 'Not authenticated.'], 401);
+        }
+
+        $payload = json_decode(file_get_contents('php://input') ?: '', true);
+        $recipeId = (int)($payload['id'] ?? 0);
+
+        if (!$recipeId) {
+            json_response(['ok' => false, 'error' => 'Invalid recipe ID.'], 400);
+        }
+
+        $delete = $conn->prepare('DELETE FROM recipes WHERE id = ? AND user_id = ?');
+        $userId = (int)$user['id'];
+        $delete->bind_param('ii', $recipeId, $userId);
+        $delete->execute();
+        
+        if ($delete->affected_rows > 0) {
+            json_response(['ok' => true, 'message' => 'Recipe deleted successfully.']);
+        } else {
+            json_response(['ok' => false, 'error' => 'Recipe not found or you do not have permission to delete it.'], 403);
+        }
+        $delete->close();
+    }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'update_profile') {
         $user = $_SESSION['user'] ?? null;
         if (!$user) {

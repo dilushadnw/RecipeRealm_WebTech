@@ -17,6 +17,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bind_param("sss", $name, $email, $userMessage);
     
     if ($stmt->execute()) {
+        // Send email notification
+        $to = "dilushawijesinghe1@gmail.com";
+        $subject = "New Contact Message: Recipe Realm";
+        
+        $body = "Hello Dilusha,\n\n";
+        $body .= "You have received a new message from the Recipe Realm contact form.\n\n";
+        $body .= "Name: $name\n";
+        $body .= "Email: $email\n\n";
+        $body .= "Message:\n$userMessage\n\n";
+        $body .= "Best regards,\nRecipe Realm System";
+        
+        $headers = "From: noreply@reciperealm.com\r\n";
+        $headers .= "Reply-To: $email\r\n";
+        
+        // Supress errors using @ in case the local WAMP mail server isn't configured yet
+        @mail($to, $subject, $body, $headers);
+
         json_response(["ok" => true, "message" => "Your message has been sent successfully!"]);
     } else {
         json_response(["ok" => false, "error" => "Failed to send message."], 500);
@@ -100,8 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="logo">
-            <i class="fas fa-utensils"></i>
+        <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+            <img src="images/Logo.png" alt="Recipe Realm" style="height: 60px; object-fit: contain;">
             <span>Recipe Realm</span>
         </div>
         <ul class="nav-links">
@@ -175,7 +192,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <!-- Footer -->
     <footer>
-        <span class="footer-logo"><i class="fas fa-utensils"></i> Recipe Realm</span>
+        <span class="footer-logo" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="images/Logo.png" alt="Recipe Realm" style="height: 50px; object-fit: contain;">
+            Recipe Realm
+        </span>
         <div class="social-links">
             <a href="#"><i class="fab fa-facebook"></i></a>
             <a href="#"><i class="fab fa-instagram"></i></a>
